@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mastarone's Top Songs</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="styles/tim-style.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="themes/project-theme.min.css" />
+	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/mobileservices/MobileServices.Web-1.2.5.min.js"></script>
+    <script src="songs.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Append grid blocks for each column outside the loop
+            $('.ui-grid-c').append('<div class="ui-block-a" data-theme="a"><div class="ui-bar ui-bar-a"><p>Song</p></div></div><div class="ui-block-b"><div class="ui-bar ui-bar-a"><p>Artist</p></div></div><div class="ui-block-c"><div class="ui-bar ui-bar-a"><p>Release Year</p></div></div>');
+
+            // Load songs from local storage
+            var storedSongs = JSON.parse(localStorage.getItem('songs')) || [];
+            storedSongs.forEach(function (song) {
+                $('.ui-grid-c').append('<div class="ui-block-a"><div class="ui-bar ui-bar-a"><p>' + song.song + '</p></div></div>');
+                $('.ui-grid-c').append('<div class="ui-block-b"><div class="ui-bar ui-bar-a"><p>' + song.artist + '</p></div></div>');
+                $('.ui-grid-c').append('<div class="ui-block-c"><div class="ui-bar ui-bar-a"><p>' + song.releaseYear + '</p></div></div>');
+            });
+
+            // Handle form submission
+            $('#genreForm').submit(function (e) {
+                e.preventDefault(); // Prevent default form submission
+                var songName = $('#songName').val();
+                var artist = $('#artist').val();
+                var releaseDate = $('#releaseDate').val();
+
+                // Append new song to grid
+                $('.ui-grid-c').append('<div class="ui-block-a"><div class="ui-bar ui-bar-a"><p>' + songName + '</p></div></div>');
+                $('.ui-grid-c').append('<div class="ui-block-b"><div class="ui-bar ui-bar-a"><p>' + artist + '</p></div></div>');
+                $('.ui-grid-c').append('<div class="ui-block-c"><div class="ui-bar ui-bar-a"><p>' + releaseDate + '</p></div></div>');
+
+                // Save to local storage
+                var newSong = {
+                    song: songName,
+                    artist: artist,
+                    releaseYear: releaseDate
+                };
+                storedSongs.push(newSong);
+                localStorage.setItem('songs', JSON.stringify(storedSongs));
+
+                // Clear form fields
+                $('#songName').val('');
+                $('#artist').val('');
+                $('#releaseDate').val('');
+            });
+        });
+
+    </script>
+
+</head>
+
+<body>
+    <div data-role="page" id="pageone" data-theme="b">
+        <div data-role="panel" id="myPanel">
+            <h2>Favorites Pages</h2>
+            <ul data-role="listview" data-theme="c">
+                <li class="menu"><a href="#pageseven">View Our Favorites List</a></li>
+                <li class="menu"><a href="#pagetwo">Add Your Song</a></li>
+            </ul>
+            <p>You can view our Favorites or add your own</p>
+        </div>
+        <div data-role="header" class="dark" style="height: 200px" ;>
+            <img src="images/instruments.jpg" height="200" width="400" class="logo" alt="Logo" />
+            <h1>Mastarone's Top Songs</h1>
+        </div>
+        <div data-role="header">
+            <h1>Select an Option Below</h1>
+            <a href="#myPanel" class="ui-btn ui-btn-inline">Favorites</a>
+        </div>
+        <div data-role="main" class="ui-content">
+            <img src="images/best.jpg" class="left-image" alt="Left Image" />
+            <ul data-role="listview">
+                <li><a href="#pagetwo">Add Your Song to Our List</a></li>
+                <li><a href="#pagethree">See songs from 2000-present</a></li>
+                <li><a href="#pagefour">See songs from 1980-1999</a></li>
+                <li><a href="#pagefive">See songs from 1960-1979</a></li>
+                <li><a href="#pagesix">See songs from 1940-1959</a></li>
+                <li><a href="#pageseven">See a list of all songs</a></li>
+                <li><a href="#pageeight">See our user's favorite songs</a></li>
+            </ul>
+
+        </div>
+        <div data-role="footer" class="dark">
+            <h1>&copy; 2024 Tim Mastarone</h1>
+        </div>
+    </div>
+
+    <div data-role="page" data-dialog="true" id="pagetwo" data-add-back-btn="true">
+        <div data-role="header" data-theme="c">
+            <h1>Page Two</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <p>Select a Genre</p>
+            <ul data-role="listview" data-theme="c" data-filter="true">
+                <li><a href="#">Rock and Roll</a></li>
+                <li><a href="#">Blues</a></li>
+                <li data-icon="star"><a href="#">Hip Hop</a></li>
+                <li><a href="#">Country</a></li>
+                <li><a href="#">R and B</a></li>
+                <li><a href="#">Electronic</a></li>
+                <li><a href="#">Classical</a></li>
+                <li><a href="#">Contemporary</a></li>
+                <li><a href="#">Techno</a></li>
+                <li><a href="#">Rap</a></li>
+                <li><a href="#">Reggae</a></li>
+                <li><a href="#">Folk</a></li>
+                <li><a href="#">Slow</a></li>
+                <li><a href="#">Disco</a></li>
+                <li><a href="#">Dance</a></li>
+            </ul>
+            <form id="genreForm">
+                <h1>Enter your information and a song to add to our list:</h1>
+                <label for="songName">Song Name:</label>
+                <input type="text" id="songName" name="songName">
+                <label for="artist">Song Artist:</label>
+                <input type="text" id="artist" name="artist">
+                <label for="releaseDate">Release Year:</label>
+                <input type="text" id="releaseDate" name="releaseDate">
+                <button type="submit">Submit</button>
+            </form>
+            <a href="#pageone" data-role="button">Go back</a>
+        </div>
+    </div>
+
+    <div data-role="page" data-dialog="true" id="pagethree">
+        <div data-role="header">
+            <h1>Page Three</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <p>See songs from 2000-present</p>
+            <a href="#pageone" data-role="button">Go back</a>
+        </div>
+    </div>
+
+    <div data-role="page" data-dialog="true" id="pagefour">
+        <div data-role="header">
+            <h1>Page Four</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <p>See songs from 1980-1999</p>
+            <a href="#pageone" data-role="button">Go back</a>
+        </div>
+    </div>
+
+    <div data-role="page" data-dialog="true" id="pagefive">
+        <div data-role="header">
+            <h1>Page Five</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <p>See songs from 1960-1979</p>
+            <a href="#pageone" data-role="button">Go back</a>
+        </div>
+    </div>
+
+    <div data-role="page" data-dialog="true" id="pagesix">
+        <div data-role="header">
+            <h1>Page Six</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <p>See songs from 1940-1959</p>
+            <a href="#pageone" data-role="button">Go back</a>
+        </div>
+    </div>
+
+    <div data-role="page" data-dialog="true" id="pageseven" data-theme="a">
+        <div data-role="header">
+            <h1>Page Seven</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <p><strong>See our Songs list</strong></p>
+            <div class="ui-grid-c" id="allSongsGrid">
+                <!-- Songs will be dynamically added here -->
+            </div>
+            <a href="#pageone" data-role="button">Go back</a>
+        </div>
+    </div>
+
+    <div data-role="page" data-dialog="true" id="pageeight" data-theme="a">
+        <div data-role="header">
+            <h1>User Favorites</h1>
+        </div>
+        <div data-role="main" class="ui-content">
+            <p><strong>See our user's Favorite songs list</strong></p>
+            <div class="ui-grid-c" id="favoriteSongsGrid">
+                <!-- Songs will be dynamically added here -->
+            </div>
+            <a href="#pageone" data-role="button">Go back</a>
+        </div>
+    </div>
+
+    <script>
+        $(document).on("pagebeforeshow", "#pageseven", function () {
+            var storedSongs = JSON.parse(localStorage.getItem('songs')) || [];
+            var $allSongsGrid = $('#allSongsGrid');
+            $allSongsGrid.empty(); // Clear previous entries
+            storedSongs.forEach(function (song) {
+                $allSongsGrid.append(
+                    '<div class="ui-block-a"><div class="ui-bar ui-bar-a"><p>' + song.song + '</p></div></div>' +
+                    '<div class="ui-block-b"><div class="ui-bar ui-bar-a"><p>' + song.artist + '</p></div></div>' +
+                    '<div class="ui-block-c"><div class="ui-bar ui-bar-a"><p>' + song.releaseYear + '</p></div></div>'
+                );
+            });
+        });
+
+        $(document).on("pagebeforeshow", "#pageeight", function () {
+            var storedSongs = JSON.parse(localStorage.getItem('songs')) || [];
+            var $favoriteSongsGrid = $('#favoriteSongsGrid');
+            $favoriteSongsGrid.empty(); // Clear previous entries
+            storedSongs.forEach(function (song) {
+                $favoriteSongsGrid.append(
+                    '<div class="ui-block-a"><div class="ui-bar ui-bar-a"><p>' + song.song + '</p></div></div>' +
+                    '<div class="ui-block-b"><div class="ui-bar ui-bar-a"><p>' + song.artist + '</p></div></div>' +
+                    '<div class="ui-block-c"><div class="ui-bar ui-bar-a"><p>' + song.releaseYear + '</p></div></div>'
+                );
+            });
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+/* styles/tim-style.css */
+
+/* Dark background for header and footer */
+.dark {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Logo styling */
+.logo {
+    position: absolute;
+    width: 30%; /* Set the width of the logo to 30% of the parent container's width */
+    height: 100%; /* Allow the height to adjust proportionally */
+    display: block; /* Ensure the image is displayed as a block element */
+    margin: 0 auto; /* Center the image horizontally within its container */
+    max-width: 100%; /* Ensure the image doesn't exceed its container's width */
+}
+
+.left-image {
+    float: left;
+    margin-right: 10px;
+    height: auto;
+}
+
+.right-image {
+    float: right;
+    margin-left: 10px;
+    margin-top: 50px;
+    height: 200px;
+}
+
+/* Set header height */
+[data-role="header"] {
+    position: fixed;
+    height: 50px;
+}
+
+/* Set padding for main content */
+.ui-content {
+    margin-top: 20px;
+    padding-top: 220px;
+    padding-bottom: 100px;
+}
+
+/*2 rules to assist in the dynamic generation of the songs grid(s)*/
+.song-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns with equal width */
+    grid-gap: 10px; /* Gap between grid items */
+}
+
+.song-item {
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/*Use flex for the grid to manage the row and column format*/
+/*This maintains 3 columns and makes sure they are all the same height regardless of the content*/
+.ui-grid-c {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.ui-grid-c .ui-block-a,
+.ui-grid-c .ui-block-b,
+.ui-grid-c .ui-block-c {
+    flex: 0 0 calc(33.333% - 20px); /* Adjust 20px to manage spacing between columns */
+    max-width: calc(33.333% - 20px); /* Adjust 20px to manage spacing between columns */
+}
+
+.ui-grid-c .ui-bar {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+/* Media query for smaller screens (e.g., mobile devices) */
+@media only screen and (max-width: 600px) {    
+    .left-image,
+    .right-image {
+        width: 30%; /* Set the width of the logo to 30% of the parent container's width */
+        height: auto; /* Allow the height to adjust proportionally */
+        display: block; /* Ensure the image is displayed as a block element */
+        margin: 0 auto; /* Center the image horizontally within its container */
+        max-width: 100%; /* Ensure the image doesn't exceed its container's width */
+    }
+}
